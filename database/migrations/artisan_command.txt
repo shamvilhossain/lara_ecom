@@ -1,0 +1,10 @@
+to alter table
+---------------------------
+php artisan make:migration add_column_to_table --table="tableName"
+
+php artisan make:migration add_discount_to_tbl_product --table="tbl_product"
+
+
+to add model
+-----------------
+php artisan make:model Todo -m

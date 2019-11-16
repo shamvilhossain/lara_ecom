@@ -1,0 +1,5 @@
+
+i:
+cd xampp\htdocs\lara_ecom
+
+http://webdevzoom.com/how-to-install-composer-on-windows/
