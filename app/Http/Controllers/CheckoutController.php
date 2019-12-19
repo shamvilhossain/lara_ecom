@@ -90,6 +90,8 @@ class CheckoutController extends Controller
         //pament part
         $payment_type= $request->payment_type; 
         $data1['payment_type'] = $payment_type;
+        $data1['payment_status '] = 'Pending';
+        $data1['created_at '] = date('Y-m-d H:i:s');
 
         $payment_id = DB::table('tbl_payment')
                             ->insertGetId($data1); 
@@ -114,6 +116,11 @@ class CheckoutController extends Controller
 
             DB::table('tbl_order_details')
                             ->insert($oddata);
+            // here product_quantity 
+           // $odata['product_quantity']= $payment_id;
+            DB::table('tbl_product')
+                     ->where('id',$v_content->id)
+                     ->decrement('product_quantity', $v_content->qty);
         }    
          
         if($payment_type=='paypal'){

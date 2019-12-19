@@ -195,8 +195,8 @@
               <!-- / cart box -->
               <!-- search box -->
               <div class="aa-search-box">
-                <form action="">
-                  <input type="text" name="" id="" placeholder="Search here ex. 'man' ">
+                <form action="{{ route('search') }}" method="GET" class="search-form">
+                  <input type="text" name="query" id="query" placeholder="Search Here" value="{{ request()->input('query') }}" required>
                   <button type="submit"><span class="fa fa-search"></span></button>
                 </form>
               </div>
@@ -297,6 +297,7 @@
       <div class="row">
         <div class="col-md-12">
           <div class="row">
+          <br/>
             @yield('content')
           </div>
         </div>
@@ -379,7 +380,7 @@
   <!-- / Latest Blog -->
 
   <!-- Client Brand -->
-  <section id="aa-client-brand">
+  <!-- <section id="aa-client-brand">
     <div class="container">
       <div class="row">
         <div class="col-md-12">
@@ -401,11 +402,11 @@
         </div>
       </div>
     </div>
-  </section>
+  </section> -->
   <!-- / Client Brand -->
 
   <!-- Subscribe section -->
-  <section id="aa-subscribe">
+  <!-- <section id="aa-subscribe">
     <div class="container">
       <div class="row">
         <div class="col-md-12">
@@ -420,7 +421,7 @@
         </div>
       </div>
     </div>
-  </section>
+  </section> -->
   <!-- / Subscribe section -->
 
   <!-- footer -->  
@@ -536,10 +537,37 @@
             <input type="password" placeholder="Password" name="password" required>
             <button class="aa-browse-btn" type="submit"  id="login_btn">Login</button>
            
-            <label for="rememberme" class="rememberme"><a id="lp">Lost your password?</a></label>
+            <label for="rememberme" class="rememberme"><a id="lpnnn" data-toggle="modal" data-target="#lost-modal">Lost your password?</a></label>
             <p class="aa-lost-password"></p>
             <div class="aa-register-now">
               Don't have an account?<a href="{{URL::to('/register')}}">Register now!</a>
+            </div>
+         <!--  {!! Form::close() !!} -->
+         </form>
+        </div>                        
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div>   
+
+
+  <!-- Lost Modal -->  
+  <div class="modal fade" id="lost-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">                      
+        <div class="modal-body">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4>Login or Register</h4>
+
+          <!-- {!! Form::open([ 'id' => 'cust_login', 'method' => 'post', 'class' => 'aa-login-form' ]) !!} -->
+            <form method="post" class="aa-login-form">
+            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+           
+
+            <label for="">Email<span>*</span></label>
+             <input type="text" name="first_name" placeholder="Username" required>
+            <label for="">Password<span>*</span></label>
+            <input type="password" placeholder="Password" name="password" required>
+            <button class="aa-browse-btn" type="submit"  id="login_btn">Login</button>
             </div>
          <!--  {!! Form::close() !!} -->
          </form>
@@ -665,8 +693,59 @@
                     return false;
                 }
             });
- 
+
+      $('#cart_form').on('submit', function(){
+         var qty= $('select[name=qty]').val();  
+         var available_qty= $('#product_quantity').val();  
+         if(parseInt(qty) > parseInt(available_qty)){
+            swal({
+                  icon: 'error',
+                  title: 'Out of Stock !',
+                  text: 'Please Try Later',
+                  buttons: false,
+                  timer: 2000,
+                });
+            return false;
+         }else{
+            return true;
+         }
+         
+      });
+
+      $('#update_cart_form').on('submit', function(){
+            var counter= $('#counter').val(); 
+            var product_id=0;
+            var product_name='';
+            var old_product_quantity =0;
+            var new_product_quantity =0;
+           for (var i =1; i <=  counter - 1; i++) {
+             product_id= $("input[name=product_id"+i+"]").val();
+             product_name= $("input[name=product_name"+i+"]").val();
+             old_product_quantity= $("input[name=old_product_quantity"+i+"]").val();
+             new_product_quantity= $('#product_qty'+i).val();
+         
+             if(parseInt(new_product_quantity) > parseInt(old_product_quantity)){
+                swal({
+                    icon: 'error',
+                    title: product_name+' is Out of Stock !',
+                    text: 'Please Try Later',
+                    buttons: false,
+                    timer: 2000,
+                  });
+                //$('#product_qty'+i).val(old_product_quantity);
+                return false;
+             }
+           }
+           return true;
+           
+        });
+
+
+       
   });
+
+      
+
   </script> 
   
 

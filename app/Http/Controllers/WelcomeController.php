@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use DB;
 use Session;
 use Illuminate\Support\Facades\Redirect;
+use App\Product;
 
 class WelcomeController extends Controller
 {
@@ -32,7 +33,7 @@ class WelcomeController extends Controller
                 ->with('blog',$blog)
                 ->with('banner',$banner)
                 ->with('support',$support)
-                ->with('promo',$promo)
+                //->with('promo',$promo)
                 ->with('popular_product',$popular_product);
     }
 
@@ -72,9 +73,18 @@ class WelcomeController extends Controller
                                  ->where('tbl_product.id',$product_id)
                                  ->where('tbl_product.publication_status',1)
                                  ->first();
+        // related product                        
+        $related_product_info = DB::table('tbl_product')
+                                 ->join('tbl_manufacturer','tbl_product.manufacturer_id','=','tbl_manufacturer.id')
+                                 ->join('tbl_category','tbl_product.category_id','=','tbl_category.id')
+                                 ->select('tbl_product.*','tbl_manufacturer.manufacturer_name','tbl_category.category_name')
+                                 ->where('tbl_product.id','<>', $product_info->id)
+                                 ->where('tbl_product.category_id',$product_info->category_id)
+                                 ->where('tbl_product.publication_status',1)
+                                 ->get();                      
         $product_details= view('pages.product_details')
-                                ->with('product_info',$product_info);
-        
+                                ->with('product_info',$product_info)
+                                ->with('related_product_info',$related_product_info);
         
         return view('master')
                 ->with('content',$product_details);
@@ -113,6 +123,35 @@ class WelcomeController extends Controller
         
         return view('master')
                 ->with('register',$customer_registration);
+    }
+
+    public function search(Request $request)
+    {
+        
+        $this->validate(request(), [
+            'query' => 'required|min:3',
+        ]);
+
+        $query = $request->input('query');
+
+        // $products = Product::where('name', 'like', "%$query%")
+        //                    ->orWhere('details', 'like', "%$query%")
+        //                    ->orWhere('description', 'like', "%$query%")
+        //                    ->paginate(10);
+        $product_result = DB::table('tbl_product')
+                        ->where('product_name', 'like', "%$query%")
+                        ->orWhere('product_short_description', 'like', "%$query%")
+                        ->orWhere('product_long_description', 'like', "%$query%")
+                        ->paginate(10);                  
+
+        //$product_result = Product::search($query)->paginate(10);
+
+        //return view('search-results')->with('products', $products);
+        $all_products= view('pages.all_products')
+                                ->with('products',$product_result);
+        //echo $all_products;exit;
+        return view('master')
+                ->with('content',$all_products);
     }
 
     /**

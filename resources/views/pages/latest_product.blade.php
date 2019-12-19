@@ -20,9 +20,11 @@
 
                          <?php 
                               $featured_product_info = DB::table('tbl_product')
-                                 ->select('*')
-                                 ->where('is_featured',1)
-                                 ->where('publication_status',1)
+                                 ->leftJoin('tbl_category', 'tbl_product.category_id', '=', 'tbl_category.id')
+                                 ->select('tbl_product.*')
+                                 ->where('tbl_product.is_featured',1)
+                                 ->where('tbl_product.publication_status',1)
+                                 ->where('tbl_category.publication_status',1)
                                  ->get();
                               foreach ($featured_product_info as $v_product) {
                       

@@ -7,7 +7,7 @@
        <div class="col-md-12">
          <div class="cart-view-area">
            <div class="cart-view-table">
-             <form action="">
+             {!! Form::open(['url' => '/update-cart','method' => 'post', 'id' => 'update_cart_form']) !!}  
                <div class="table-responsive">
                   <table class="table">
                     <thead>
@@ -22,10 +22,9 @@
                     </thead>
                     <tbody>
                        <?php 
+                          $i=1;
                           $content = Cart::content();
-                          foreach ($content as $v_contents) {
-                            
-                          
+                          foreach ($content as $v_contents) {  
                       ?>
                       
                       <tr>
@@ -33,26 +32,35 @@
                         <td><a href="#"><img width="50" height="50" src="{{$v_contents->options['image']}}" alt="img"></a></td>
                         <td><a class="aa-cart-title" href="#">{{$v_contents->name}}</a></td>
                         <td>BDT {{$v_contents->price}}</td>
-                        <td> <input  type="text" value="{{$v_contents->qty}}" name="qty"></td>
+                        <td> <input  type="text" value="{{$v_contents->qty}}" name="qty[]" id="product_qty<?=$i?>"></td>
                         <td>BDT {{$v_contents->subtotal}}</td>
+                          <input  type="hidden" value="{{$v_contents->rowId}}" name="cart_rowid[]">
+                          <input  type="hidden" value="{{$v_contents->id}}" name="product_id<?=$i?>">
+                          <input  type="hidden" value="{{$v_contents->name}}" name="product_name<?=$i?>">
+                          <input  type="hidden" value="{{$v_contents->options['product_quantity']}}" name="old_product_quantity<?=$i?>">
+                          
                       </tr>
 
-                      <?php } ?>
+                      <?php
+                        $i++; 
+                      } 
+                      ?>
+                      <!-- https://packagist.org/packages/gloudemans/shoppingcart -->
                       <tr>
                         <td colspan="6" class="aa-cart-view-bottom">
-                          <div class="aa-cart-coupon">
+                          <!-- <div class="aa-cart-coupon">
                             <input class="aa-coupon-code" type="text" placeholder="Coupon">
                             <input class="aa-cart-view-btn" type="submit" value="Apply Coupon">
-                          </div>
-                         
-                          <input  type="hidden" placeholder="{{$v_contents->rowId}}" name="rowid">
+                          </div> -->
+                          <input  type="hidden" value="{{$i}}" name="counter" id="counter">
                           <input class="aa-cart-view-btn" type="submit" value="Update Cart">
+                          
                         </td>
                       </tr>
                       </tbody>
                   </table>
                 </div>
-             </form>
+             {!! Form::close() !!} 
              <!-- Cart Total view -->
              <div class="cart-view-total">
                <h4>Cart Totals</h4>

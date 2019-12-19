@@ -65,6 +65,7 @@ Route::get('/product-details/{id}','WelcomeController@product_details');
 Route::post('/add-to-cart','CartController@add_to_cart');
 Route::get('/show-cart','CartController@show_cart');
 Route::get('/remove-from-cart/{id}','CartController@remove_from_cart');
+Route::post('/update-cart','CartController@update_cart');
 
 
 // checkout
@@ -73,12 +74,13 @@ Route::get('/customer-registration','CheckoutController@customer_registration');
 Route::post('/save-customer','CheckoutController@save_customer');
 Route::get('/payment','CheckoutController@payment');
 Route::post('/place-order','CheckoutController@place_order');
-Route::post('/order-successfull','CheckoutController@order_successfull');
+Route::get('/order-successfull','CheckoutController@order_successfull');
 Route::get('/customer-logout','CheckoutController@customer_logout');
 
 // customer login 29-oct-2019
 Route::post('/login-customer','WelcomeController@login_customer');
 Route::get('/register','WelcomeController@register');
+Route::get('/search', 'WelcomeController@search')->name('search');
 
 
 Route::get('/logout','SuperAdminController@logout');

@@ -27,9 +27,25 @@ class CartController extends Controller
         'name' => $product_info->product_name, 
         'qty' => $qty, 
         'price' => $product_info->product_price, 
-        'options' => ['image' => $product_info->product_image]]);  
+        'options' => ['image' => $product_info->product_image,
+                      'product_quantity' => $product_info->product_quantity
+        ]]);  
 
          return Redirect::to('/show-cart');                       
+    }
+
+    public function update_cart(Request $request)
+    {
+        
+        $cart_rowids = $request->cart_rowid; 
+        $qtys = $request->qty;
+        foreach ($cart_rowids as $index => $cart_rowid) {
+                $rowId = $cart_rowid;
+                $qty = $qtys[$index];
+                Cart::update($rowId, $qty);
+        }
+        
+        return Redirect::to('/show-cart');                       
     }
 
 
