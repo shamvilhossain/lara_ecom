@@ -133,6 +133,57 @@ class SuperAdminController extends Controller
         return Redirect::to('/manage-category');
     }
 
+     public function manage_order()
+    {
+        $admin_id=Session::get('admin_id');
+        if($admin_id==null){
+            return Redirect::to('/adda')->send();
+        }
+        $sql="SELECT o.*,GROUP_CONCAT(od.product_name) product_names,
+                GROUP_CONCAT(od.product_price) prices,
+                GROUP_CONCAT(od.product_sales_quantity) qtys,
+                pay.payment_type,pay.payment_status,pay.payment_id,
+                cus.first_name,cus.address,cus.mobile
+                FROM tbl_order o
+                LEFT OUTER JOIN tbl_order_details od ON(od.order_id=o.order_id)
+                LEFT OUTER JOIN tbl_payment pay ON(pay.payment_id=o.payment_id)
+                LEFT OUTER JOIN tbl_customer cus ON(cus.customer_id=o.customer_id)
+                WHERE o.order_status<>0
+                GROUP BY o.order_id";
+        $order_info = DB::select($sql);        
+
+        $manage_order = view('admin.pages.manage_order')->with('order_info',$order_info);
+        return view('admin.admin_master')
+                ->with('main_content',$manage_order);
+    } 
+
+    public function confirm_payment($payment_id)
+    {
+       DB::table('tbl_payment')
+            ->where('payment_id', $payment_id)
+            ->update(['payment_status' => 'OK']);
+           
+        return Redirect::to('/manage-order');
+    } 
+
+    public function approve_order($order_id)
+    {
+       DB::table('tbl_order')
+            ->where('order_id', $order_id)
+            ->update(['order_status' => 2]);
+           
+        return Redirect::to('/manage-order');
+    }
+
+    public function cancel_order($order_id)
+    {
+       DB::table('tbl_order')
+            ->where('order_id', $order_id)
+            ->update(['order_status' => 0]);
+           
+        return Redirect::to('/manage-order');
+    }
+
      public function add_coupon()
     {
         $admin_id=Session::get('admin_id');

@@ -419,8 +419,9 @@
 						<li><a href="{{URL::to('/manage-manufacturer')}}"><i class="icon-eye-open"></i><span class="hidden-tablet"> Manage Manufacturer</span></a></li>
 						<li><a href="{{URL::to('/add-product')}}"><i class="icon-dashboard"></i><span class="hidden-tablet"> Add Product</span></a></li>
 						<li><a href="{{URL::to('/manage-product')}}"><i class="icon-dashboard"></i><span class="hidden-tablet"> Manage Product</span></a></li>
+						<li><a href="{{URL::to('/manage-order')}}"><i class="icon-tasks"></i><span class="hidden-tablet"> Manage Orders</span></a></li>
 						<li><a href="{{URL::to('/add-coupon')}}"><i class="icon-dashboard"></i><span class="hidden-tablet"> Add Coupon</span></a></li>
-						<li>
+						<!-- <li>
 							<a class="dropmenu" href="#"><i class="icon-folder-close-alt"></i><span class="hidden-tablet"> Dropdown</span><span class="label label-important"> 3 </span></a>
 							<ul>
 								<li><a class="submenu" href="submenu.html"><i class="icon-file-alt"></i><span class="hidden-tablet"> Sub Menu 1</span></a></li>
@@ -436,7 +437,7 @@
 						<li><a href="calendar.html"><i class="icon-calendar"></i><span class="hidden-tablet"> Calendar</span></a></li>
 						<li><a href="file-manager.html"><i class="icon-folder-open"></i><span class="hidden-tablet"> File Manager</span></a></li>
 						<li><a href="icon.html"><i class="icon-star"></i><span class="hidden-tablet"> Icons</span></a></li>
-						<li><a href="login.html"><i class="icon-lock"></i><span class="hidden-tablet"> Login Page</span></a></li>
+						<li><a href="login.html"><i class="icon-lock"></i><span class="hidden-tablet"> Login Page</span></a></li> -->
 					</ul>
 				</div>
 			</div>

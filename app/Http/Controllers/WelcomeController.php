@@ -99,14 +99,14 @@ class WelcomeController extends Controller
         $first_name= $request->first_name;
         $password= $request->password;
         
-        $category_info = DB::table('tbl_customer')
+        $customer_info = DB::table('tbl_customer')
                      ->select('*')
                      ->where('first_name',$first_name)
                      ->where('password',$password)
                      ->first();
-        if($category_info){
-            Session::put('customer_id',$category_info->customer_id);     
-            Session::put('customer_name',$category_info->first_name);
+        if($customer_info){
+            Session::put('customer_id',$customer_info->customer_id);     
+            Session::put('customer_name',$customer_info->first_name);
             $json = array( "type" => 'done', "name" => 'nn'); 
         }else{
             Session::put('exception','User Id or Pasword Invalid');
@@ -152,6 +152,30 @@ class WelcomeController extends Controller
         //echo $all_products;exit;
         return view('master')
                 ->with('content',$all_products);
+    }
+
+    public function forget_password(Request $request)
+    {
+        $email_address= $request->email_address;
+        //$password= uniqid(rand(), true);
+        $password= rand();
+        
+        $customer_info = DB::table('tbl_customer')
+                     ->select('*')
+                     ->where('email_address',$email_address)
+                     ->first();
+        if($customer_info){
+            //update & email
+            DB::table('tbl_customer')
+                    ->where('customer_id',$customer_info->customer_id)
+                    ->update(array('password' => $password));
+            $json = array( "type" => 'done'); 
+        }else{
+            // not found
+            $json = array('type' => 'fail');  
+        }             
+             
+        echo json_encode($json); 
     }
 
     /**

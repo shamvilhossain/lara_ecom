@@ -556,19 +556,17 @@
       <div class="modal-content">                      
         <div class="modal-body">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-          <h4>Login or Register</h4>
+          <h4>Forget Password</h4>
 
           <!-- {!! Form::open([ 'id' => 'cust_login', 'method' => 'post', 'class' => 'aa-login-form' ]) !!} -->
             <form method="post" class="aa-login-form">
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
            
-
             <label for="">Email<span>*</span></label>
-             <input type="text" name="first_name" placeholder="Username" required>
-            <label for="">Password<span>*</span></label>
-            <input type="password" placeholder="Password" name="password" required>
-            <button class="aa-browse-btn" type="submit"  id="login_btn">Login</button>
-            </div>
+             <input type="text" name="email_address" placeholder="Email" required>
+            <button class="aa-browse-btn" type="submit"  id="send_email">Send</button>
+            <br /><br /><br />
+          </div>
          <!--  {!! Form::close() !!} -->
          </form>
         </div>                        
@@ -675,6 +673,54 @@
                                 icon: 'error',
                                 title: 'Oops....',
                                 text: 'Invalid Email or Password !',
+                                buttons: false,
+                                timer: 2000,
+                              });
+                            }
+                            
+                        },
+                        error : function(data){
+                            swal({
+                                title: 'Oops...',
+                                text: 'Something went Wrong !',
+                                type: 'error',
+                                timer: '1500'
+                            })
+                        }
+                    });
+                    return false;
+                }
+            });
+
+          $('#lost-modal form').on('submit', function (e) {
+        
+                if (!e.isDefaultPrevented()){
+                    
+                    url = "{{ url('/forget-password') }}";
+                   
+                    $.ajax({
+                        url : url,
+                        type : "POST",
+                        dataType: "JSON",
+                        data: new FormData($("#lost-modal form")[0]),
+                       contentType: false,
+                       processData: false,
+                        success : function(data) {
+                            if(data.type=='done'){
+                              $('#lost-modal').modal('hide');
+                              swal({
+                                icon: 'success',
+                                title: 'Done',
+                                text: 'Please Check Mail !',
+                                buttons: false,
+                                timer: 1500,
+                              });
+                              window.setTimeout(function(){location.reload()},2000);
+                            }else{
+                              swal({
+                                icon: 'error',
+                                title: 'Oops....',
+                                text: 'Invalid Email Address!',
                                 buttons: false,
                                 timer: 2000,
                               });

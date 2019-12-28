@@ -32,6 +32,10 @@ Route::get('/publish-category/{id}','SuperAdminController@publish_category');
 Route::get('/delete-category/{id}','SuperAdminController@delete_category');
 Route::get('/edit-category/{id}','SuperAdminController@edit_category');
 Route::post('/update-category','SuperAdminController@update_category');
+Route::get('/manage-order','SuperAdminController@manage_order');
+Route::get('/confirm-payment/{id}','SuperAdminController@confirm_payment');
+Route::get('/approve-order/{id}','SuperAdminController@approve_order');
+Route::get('/cancel-order/{id}','SuperAdminController@cancel_order');
 
 
 Route::get('/add-coupon','SuperAdminController@add_coupon');
@@ -79,6 +83,7 @@ Route::get('/customer-logout','CheckoutController@customer_logout');
 
 // customer login 29-oct-2019
 Route::post('/login-customer','WelcomeController@login_customer');
+Route::post('/forget-password','WelcomeController@forget_password');
 Route::get('/register','WelcomeController@register');
 Route::get('/search', 'WelcomeController@search')->name('search');
 
