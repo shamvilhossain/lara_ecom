@@ -73,6 +73,11 @@ class WelcomeController extends Controller
                                  ->where('tbl_product.id',$product_id)
                                  ->where('tbl_product.publication_status',1)
                                  ->first();
+        //update view count
+        DB::table('tbl_product')
+                     ->where('id',$product_info->id)
+                     ->increment('view_count', 1);
+
         // related product                        
         $related_product_info = DB::table('tbl_product')
                                  ->join('tbl_manufacturer','tbl_product.manufacturer_id','=','tbl_manufacturer.id')

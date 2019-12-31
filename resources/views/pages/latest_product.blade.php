@@ -33,19 +33,19 @@
                           <li>
                             <figure>
                               <a class="aa-product-img" href="{{URL::to('/product-details/'.$v_product->id)}}"><img src="{{asset($v_product->product_image)}}" alt="Product img"></a>
-                              <a class="aa-add-card-btn"href="#"><span class="fa fa-shopping-cart"></span>Add To Cart</a>
+                              <a class="aa-add-card-btn" href="{{URL::to('/product-details/'.$v_product->id)}}"><span class="fa fa-shopping-cart"></span>Add To Cart</a>
                                 <figcaption>
                                 <h4 class="aa-product-title"><a href="#">{{$v_product->product_name}}</a></h4>
-                                <span class="aa-product-price">${{$v_product->product_price}}</span><span class="aa-product-price"><del>$65.50</del></span>
+                                <span class="aa-product-price">${{$v_product->product_price}}</span><span class="aa-product-price"><!-- <del>$65.50</del> --></span>
                               </figcaption>
                             </figure>                        
-                            <div class="aa-product-hvr-content">
+                            <!-- <div class="aa-product-hvr-content">
                               <a href="#" data-toggle="tooltip" data-placement="top" title="Add to Wishlist"><span class="fa fa-heart-o"></span></a>
                               <a href="#" data-toggle="tooltip" data-placement="top" title="Compare"><span class="fa fa-exchange"></span></a>
                               <a href="#" data-toggle2="tooltip" data-placement="top" title="Quick View" data-toggle="modal" data-target="#quick-view-modal"><span class="fa fa-search"></span></a>                          
-                            </div>
+                            </div> -->
                             <!-- product badge -->
-                            <span class="aa-badge aa-sale" href="#">SALE!</span>
+                            <!-- <span class="aa-badge aa-sale" href="#">SALE!</span> -->
                           </li>
 
                         <?php } ?>
