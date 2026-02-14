@@ -17,6 +17,6 @@
     "webpack": "^4.29.6"
   },
   "dependencies": {
-    "axios": "^0.18.0"
+  
   }
 }
